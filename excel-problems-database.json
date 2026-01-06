@@ -1,0 +1,362 @@
+[
+  {
+    "id": 1,
+    "slug": "extraer-dominio-email",
+    "pregunta": "Cómo extraer el dominio de un email en Excel",
+    "solucion": "=EXTRAE(A1,ENCONTRAR(\"@\",A1)+1,LARGO(A1)-ENCONTRAR(\"@\",A1))",
+    "explicacion": "ENCONTRAR localiza la @ y EXTRAE obtiene todo el texto después de ella hasta el final",
+    "categoria": "Limpieza",
+    "tags": ["email", "dominio", "extraer", "texto", "EXTRAE", "ENCONTRAR"]
+  },
+  {
+    "id": 2,
+    "slug": "buscarv-con-dos-condiciones",
+    "pregunta": "Cómo hacer BUSCARV con dos condiciones en Excel",
+    "solucion": "=INDICE(C:C,COINCIDIR(A1&B1,A:A&B:B,0))",
+    "explicacion": "Concatena las dos condiciones y usa INDICE+COINCIDIR en lugar de BUSCARV para búsquedas múltiples",
+    "categoria": "Búsqueda",
+    "tags": ["BUSCARV", "dos condiciones", "INDICE", "COINCIDIR", "múltiples criterios"]
+  },
+  {
+    "id": 3,
+    "slug": "convertir-texto-fecha",
+    "pregunta": "Cómo convertir texto a fecha en Excel cuando no reconoce el formato",
+    "solucion": "=FECHA(EXTRAE(A1,7,4),EXTRAE(A1,4,2),EXTRAE(A1,1,2))",
+    "explicacion": "Extrae día, mes y año del texto y los recompone con FECHA para crear una fecha válida",
+    "categoria": "Fechas",
+    "tags": ["texto", "fecha", "convertir", "formato", "FECHA", "EXTRAE"]
+  },
+  {
+    "id": 4,
+    "slug": "eliminar-espacios-dobles",
+    "pregunta": "Cómo eliminar espacios dobles en medio del texto Excel",
+    "solucion": "=ESPACIOS(A1)",
+    "explicacion": "ESPACIOS elimina todos los espacios extra dejando solo uno entre palabras",
+    "categoria": "Limpieza",
+    "tags": ["espacios", "limpiar", "texto", "ESPACIOS", "dobles"]
+  },
+  {
+    "id": 5,
+    "slug": "extraer-nombre-antes-arroba",
+    "pregunta": "Cómo extraer el nombre de usuario de un email en Excel",
+    "solucion": "=IZQUIERDA(A1,ENCONTRAR(\"@\",A1)-1)",
+    "explicacion": "ENCONTRAR ubica la @ e IZQUIERDA extrae todo lo que está antes de ella",
+    "categoria": "Limpieza",
+    "tags": ["email", "usuario", "extraer", "IZQUIERDA", "ENCONTRAR"]
+  },
+  {
+    "id": 6,
+    "slug": "si-anidado-tres-condiciones",
+    "pregunta": "Cómo hacer SI anidado con 3 condiciones en Excel",
+    "solucion": "=SI(A1>100,\"Alto\",SI(A1>50,\"Medio\",SI(A1>0,\"Bajo\",\"Sin datos\")))",
+    "explicacion": "Cada SI evalúa una condición y anida otro SI para las siguientes opciones",
+    "categoria": "Lógica",
+    "tags": ["SI", "anidado", "condiciones", "múltiple", "condicional"]
+  },
+  {
+    "id": 7,
+    "slug": "buscar-ultimo-valor-columna",
+    "pregunta": "Cómo encontrar el último valor de una columna en Excel",
+    "solucion": "=BUSCAR(2,1/(A:A<>\"\"),A:A)",
+    "explicacion": "Crea un array de 1 donde hay datos y BUSCAR devuelve el último coincidente",
+    "categoria": "Búsqueda",
+    "tags": ["último", "valor", "columna", "BUSCAR", "encontrar"]
+  },
+  {
+    "id": 8,
+    "slug": "sumar-si-contiene-texto",
+    "pregunta": "Cómo sumar celdas que contienen un texto específico en Excel",
+    "solucion": "=SUMAR.SI(A:A,\"*texto*\",B:B)",
+    "explicacion": "Los asteriscos son comodines que permiten buscar texto parcial en cualquier posición",
+    "categoria": "Lógica",
+    "tags": ["SUMAR.SI", "contiene", "texto", "comodín", "parcial"]
+  },
+  {
+    "id": 9,
+    "slug": "extraer-primera-palabra",
+    "pregunta": "Cómo extraer la primera palabra de una celda en Excel",
+    "solucion": "=IZQUIERDA(A1,ENCONTRAR(\" \",A1)-1)",
+    "explicacion": "ENCONTRAR localiza el primer espacio e IZQUIERDA extrae todo lo anterior",
+    "categoria": "Limpieza",
+    "tags": ["primera", "palabra", "extraer", "IZQUIERDA", "texto"]
+  },
+  {
+    "id": 10,
+    "slug": "contar-celdas-color",
+    "pregunta": "Cómo contar celdas por color de fondo en Excel",
+    "solucion": "=SUMAPRODUCTO((SUBTOTALES(103,DESREF(A1,FILA(A1:A100)-FILA(A1),0,1)))*(A1:A100<>\"\"))",
+    "explicacion": "No hay fórmula nativa; usa SUBTOTALES con filtro por color o crea macro VBA con Interior.Color",
+    "categoria": "Lógica",
+    "tags": ["contar", "color", "fondo", "celdas", "filtro"]
+  },
+  {
+    "id": 11,
+    "slug": "quitar-saltos-linea-celda",
+    "pregunta": "Cómo eliminar saltos de línea dentro de una celda en Excel",
+    "solucion": "=SUSTITUIR(A1,CARACTER(10),\" \")",
+    "explicacion": "CARACTER(10) representa el salto de línea y SUSTITUIR lo reemplaza por espacio",
+    "categoria": "Limpieza",
+    "tags": ["salto", "línea", "eliminar", "CARACTER", "SUSTITUIR"]
+  },
+  {
+    "id": 12,
+    "slug": "buscarv-devuelve-error",
+    "pregunta": "Cómo evitar que BUSCARV muestre error cuando no encuentra valor",
+    "solucion": "=SI.ERROR(BUSCARV(A1,B:C,2,FALSO),\"No encontrado\")",
+    "explicacion": "SI.ERROR captura el error #N/A y muestra un mensaje personalizado en su lugar",
+    "categoria": "Búsqueda",
+    "tags": ["BUSCARV", "error", "SI.ERROR", "N/A", "no encuentra"]
+  },
+  {
+    "id": 13,
+    "slug": "concatenar-rango-celdas",
+    "pregunta": "Cómo concatenar un rango de celdas en una sola en Excel",
+    "solucion": "=UNIRCADENAS(\", \",VERDADERO,A1:A10)",
+    "explicacion": "UNIRCADENAS une todas las celdas del rango con el separador indicado ignorando vacías",
+    "categoria": "Limpieza",
+    "tags": ["concatenar", "rango", "unir", "UNIRCADENAS", "combinar"]
+  },
+  {
+    "id": 14,
+    "slug": "extraer-numero-texto-mixto",
+    "pregunta": "Cómo extraer solo los números de una celda con texto y números",
+    "solucion": "=SUMAPRODUCTO(EXTRAE(A1,FILA(INDIRECTO(\"1:\"&LARGO(A1))),1)*(ESNUMERO(EXTRAE(A1,FILA(INDIRECTO(\"1:\"&LARGO(A1))),1)*1)))",
+    "explicacion": "Revisa cada carácter y mantiene solo los que son numéricos mediante multiplicación",
+    "categoria": "Limpieza",
+    "tags": ["extraer", "números", "texto", "mixto", "separar"]
+  },
+  {
+    "id": 15,
+    "slug": "calcular-dias-laborables",
+    "pregunta": "Cómo calcular días laborables entre dos fechas en Excel",
+    "solucion": "=DIAS.LAB(A1,B1,C1:C10)",
+    "explicacion": "DIAS.LAB cuenta días excluyendo fines de semana y los festivos del tercer parámetro",
+    "categoria": "Fechas",
+    "tags": ["días", "laborables", "festivos", "DIAS.LAB", "trabajo"]
+  },
+  {
+    "id": 16,
+    "slug": "separar-nombre-apellido",
+    "pregunta": "Cómo separar nombre y apellido en Excel",
+    "solucion": "=IZQUIERDA(A1,ENCONTRAR(\" \",A1)-1)",
+    "explicacion": "Para nombre usa IZQUIERDA hasta el espacio; para apellido usa EXTRAE desde el espacio",
+    "categoria": "Limpieza",
+    "tags": ["separar", "nombre", "apellido", "dividir", "texto"]
+  },
+  {
+    "id": 17,
+    "slug": "buscarv-hacia-izquierda",
+    "pregunta": "Cómo hacer BUSCARV hacia la izquierda en Excel",
+    "solucion": "=INDICE(A:A,COINCIDIR(D1,C:C,0))",
+    "explicacion": "COINCIDIR encuentra la fila e INDICE devuelve el valor de cualquier columna sin restricción",
+    "categoria": "Búsqueda",
+    "tags": ["BUSCARV", "izquierda", "INDICE", "COINCIDIR", "inverso"]
+  },
+  {
+    "id": 18,
+    "slug": "quitar-caracteres-especiales",
+    "pregunta": "Cómo eliminar caracteres especiales de una celda en Excel",
+    "solucion": "=SUSTITUIR(SUSTITUIR(SUSTITUIR(A1,\"#\",\"\"),\"@\",\"\"),\"$\",\"\")",
+    "explicacion": "Anida múltiples SUSTITUIR para reemplazar cada carácter especial por nada",
+    "categoria": "Limpieza",
+    "tags": ["caracteres", "especiales", "eliminar", "SUSTITUIR", "limpiar"]
+  },
+  {
+    "id": 19,
+    "slug": "sumar-si-conjunto-multiples",
+    "pregunta": "Cómo sumar con múltiples condiciones en Excel",
+    "solucion": "=SUMAR.SI.CONJUNTO(C:C,A:A,\"Ventas\",B:B,\">1000\")",
+    "explicacion": "SUMAR.SI.CONJUNTO permite añadir pares de rango-criterio para filtrar con AND lógico",
+    "categoria": "Lógica",
+    "tags": ["SUMAR.SI.CONJUNTO", "múltiples", "condiciones", "criterios", "sumar"]
+  },
+  {
+    "id": 20,
+    "slug": "obtener-nombre-mes-fecha",
+    "pregunta": "Cómo obtener el nombre del mes de una fecha en Excel",
+    "solucion": "=TEXTO(A1,\"MMMM\")",
+    "explicacion": "TEXTO con formato MMMM devuelve el nombre completo del mes en el idioma del sistema",
+    "categoria": "Fechas",
+    "tags": ["mes", "nombre", "fecha", "TEXTO", "formato"]
+  },
+  {
+    "id": 21,
+    "slug": "extraer-extension-archivo",
+    "pregunta": "Cómo extraer la extensión de un nombre de archivo en Excel",
+    "solucion": "=EXTRAE(A1,ENCONTRAR(\"¿\",SUSTITUIR(A1,\".\",\"¿\",LARGO(A1)-LARGO(SUSTITUIR(A1,\".\",\"\"))))+1,100)",
+    "explicacion": "Encuentra el último punto sustituyendo los anteriores y extrae lo que sigue",
+    "categoria": "Limpieza",
+    "tags": ["extensión", "archivo", "extraer", "punto", "nombre"]
+  },
+  {
+    "id": 22,
+    "slug": "comparar-dos-listas-duplicados",
+    "pregunta": "Cómo comparar dos listas y encontrar duplicados en Excel",
+    "solucion": "=SI(CONTAR.SI(B:B,A1)>0,\"Duplicado\",\"Único\")",
+    "explicacion": "CONTAR.SI busca cada valor de lista A en lista B y marca si existe o no",
+    "categoria": "Búsqueda",
+    "tags": ["comparar", "listas", "duplicados", "CONTAR.SI", "coincidencias"]
+  },
+  {
+    "id": 23,
+    "slug": "calcular-edad-fecha-nacimiento",
+    "pregunta": "Cómo calcular la edad exacta a partir de fecha de nacimiento en Excel",
+    "solucion": "=SIFECHA(A1,HOY(),\"Y\")",
+    "explicacion": "SIFECHA calcula la diferencia en años completos entre la fecha y hoy",
+    "categoria": "Fechas",
+    "tags": ["edad", "años", "nacimiento", "SIFECHA", "calcular"]
+  },
+  {
+    "id": 24,
+    "slug": "buscar-valor-aproximado",
+    "pregunta": "Cómo buscar el valor más cercano en Excel",
+    "solucion": "=INDICE(B:B,COINCIDIR(MIN(ABS(A:A-D1)),ABS(A:A-D1),0))",
+    "explicacion": "Calcula la diferencia absoluta con cada valor y encuentra el mínimo",
+    "categoria": "Búsqueda",
+    "tags": ["cercano", "aproximado", "valor", "COINCIDIR", "MIN"]
+  },
+  {
+    "id": 25,
+    "slug": "convertir-mayusculas-minusculas",
+    "pregunta": "Cómo convertir texto a mayúsculas solo la primera letra en Excel",
+    "solucion": "=NOMPROPIO(A1)",
+    "explicacion": "NOMPROPIO pone en mayúscula la primera letra de cada palabra automáticamente",
+    "categoria": "Limpieza",
+    "tags": ["mayúsculas", "minúsculas", "NOMPROPIO", "capitalizar", "texto"]
+  },
+  {
+    "id": 26,
+    "slug": "buscar-segundo-valor-repetido",
+    "pregunta": "Cómo buscar la segunda coincidencia en Excel",
+    "solucion": "=INDICE(B:B,COINCIDIR(A1,B:B,0)+COINCIDIR(A1,INDICE(B:B,COINCIDIR(A1,B:B,0)+1):B1000,0))",
+    "explicacion": "Encuentra la primera coincidencia y luego busca desde esa posición la siguiente",
+    "categoria": "Búsqueda",
+    "tags": ["segunda", "coincidencia", "repetido", "INDICE", "COINCIDIR"]
+  },
+  {
+    "id": 27,
+    "slug": "extraer-texto-entre-parentesis",
+    "pregunta": "Cómo extraer texto entre paréntesis en Excel",
+    "solucion": "=EXTRAE(A1,ENCONTRAR(\"(\",A1)+1,ENCONTRAR(\")\",A1)-ENCONTRAR(\"(\",A1)-1)",
+    "explicacion": "Localiza ambos paréntesis y extrae los caracteres entre sus posiciones",
+    "categoria": "Limpieza",
+    "tags": ["paréntesis", "extraer", "entre", "EXTRAE", "ENCONTRAR"]
+  },
+  {
+    "id": 28,
+    "slug": "sumar-cada-n-filas",
+    "pregunta": "Cómo sumar cada n filas en Excel",
+    "solucion": "=SUMAPRODUCTO((RESIDUO(FILA(A1:A100)-FILA(A1)+1,3)=0)*A1:A100)",
+    "explicacion": "RESIDUO identifica las filas múltiplo de n y SUMAPRODUCTO suma solo esas",
+    "categoria": "Lógica",
+    "tags": ["sumar", "cada", "filas", "RESIDUO", "intervalos"]
+  },
+  {
+    "id": 29,
+    "slug": "obtener-dia-semana-texto",
+    "pregunta": "Cómo obtener el día de la semana en texto de una fecha Excel",
+    "solucion": "=TEXTO(A1,\"DDDD\")",
+    "explicacion": "TEXTO con DDDD devuelve el nombre completo del día en el idioma del sistema",
+    "categoria": "Fechas",
+    "tags": ["día", "semana", "nombre", "TEXTO", "fecha"]
+  },
+  {
+    "id": 30,
+    "slug": "eliminar-filas-duplicadas-formula",
+    "pregunta": "Cómo identificar filas duplicadas con fórmula en Excel",
+    "solucion": "=SI(CONTAR.SI($A$1:A1,A1)>1,\"Duplicado\",\"Único\")",
+    "explicacion": "El rango con ancla inicial fija crece y detecta si el valor ya apareció antes",
+    "categoria": "Lógica",
+    "tags": ["duplicados", "identificar", "filas", "CONTAR.SI", "único"]
+  },
+  {
+    "id": 31,
+    "slug": "buscarv-multiples-hojas",
+    "pregunta": "Cómo hacer BUSCARV en varias hojas a la vez en Excel",
+    "solucion": "=SI.ERROR(BUSCARV(A1,Hoja1!A:B,2,0),SI.ERROR(BUSCARV(A1,Hoja2!A:B,2,0),\"No encontrado\"))",
+    "explicacion": "SI.ERROR anidado busca primero en una hoja y si falla prueba en la siguiente",
+    "categoria": "Búsqueda",
+    "tags": ["BUSCARV", "hojas", "múltiples", "SI.ERROR", "buscar"]
+  },
+  {
+    "id": 32,
+    "slug": "extraer-ultima-palabra",
+    "pregunta": "Cómo extraer la última palabra de una celda en Excel",
+    "solucion": "=EXTRAE(A1,ENCONTRAR(\"¿\",SUSTITUIR(A1,\" \",\"¿\",LARGO(A1)-LARGO(SUSTITUIR(A1,\" \",\"\"))))+1,100)",
+    "explicacion": "Sustituye el último espacio por carácter especial para localizarlo y extrae desde ahí",
+    "categoria": "Limpieza",
+    "tags": ["última", "palabra", "extraer", "EXTRAE", "SUSTITUIR"]
+  },
+  {
+    "id": 33,
+    "slug": "contar-palabras-celda",
+    "pregunta": "Cómo contar el número de palabras en una celda en Excel",
+    "solucion": "=LARGO(ESPACIOS(A1))-LARGO(SUSTITUIR(ESPACIOS(A1),\" \",\"\"))+1",
+    "explicacion": "Cuenta espacios (separadores de palabras) y suma 1 para obtener total de palabras",
+    "categoria": "Limpieza",
+    "tags": ["contar", "palabras", "celda", "LARGO", "SUSTITUIR"]
+  },
+  {
+    "id": 34,
+    "slug": "fecha-primer-dia-mes",
+    "pregunta": "Cómo obtener el primer día del mes de una fecha en Excel",
+    "solucion": "=FECHA(AÑO(A1),MES(A1),1)",
+    "explicacion": "FECHA reconstruye usando el mismo año y mes pero siempre día 1",
+    "categoria": "Fechas",
+    "tags": ["primer", "día", "mes", "FECHA", "inicio"]
+  },
+  {
+    "id": 35,
+    "slug": "buscar-maximo-con-condicion",
+    "pregunta": "Cómo buscar el valor máximo con condición en Excel",
+    "solucion": "=MAX.SI.CONJUNTO(B:B,A:A,\"Norte\")",
+    "explicacion": "MAX.SI.CONJUNTO encuentra el máximo solo entre celdas que cumplen el criterio",
+    "categoria": "Búsqueda",
+    "tags": ["máximo", "condición", "MAX.SI.CONJUNTO", "filtrar", "mayor"]
+  },
+  {
+    "id": 36,
+    "slug": "extraer-numero-telefono-texto",
+    "pregunta": "Cómo limpiar un número de teléfono quitando espacios y guiones en Excel",
+    "solucion": "=SUSTITUIR(SUSTITUIR(SUSTITUIR(A1,\" \",\"\"),\"-\",\"\"),\"(\",\"\")",
+    "explicacion": "SUSTITUIR anidado elimina cada carácter no deseado reemplazándolo por vacío",
+    "categoria": "Limpieza",
+    "tags": ["teléfono", "limpiar", "espacios", "guiones", "SUSTITUIR"]
+  },
+  {
+    "id": 37,
+    "slug": "sumar-celdas-visibles-filtradas",
+    "pregunta": "Cómo sumar solo las celdas visibles después de filtrar en Excel",
+    "solucion": "=SUBTOTALES(109,A1:A100)",
+    "explicacion": "SUBTOTALES con código 109 suma ignorando las filas ocultas por filtro",
+    "categoria": "Lógica",
+    "tags": ["sumar", "visibles", "filtrar", "SUBTOTALES", "ocultas"]
+  },
+  {
+    "id": 38,
+    "slug": "fecha-ultimo-dia-mes",
+    "pregunta": "Cómo obtener el último día del mes de una fecha en Excel",
+    "solucion": "=FIN.MES(A1,0)",
+    "explicacion": "FIN.MES con segundo argumento 0 devuelve el último día del mes actual de la fecha",
+    "categoria": "Fechas",
+    "tags": ["último", "día", "mes", "FIN.MES", "final"]
+  },
+  {
+    "id": 39,
+    "slug": "buscar-fila-valor-maximo",
+    "pregunta": "Cómo encontrar en qué fila está el valor máximo en Excel",
+    "solucion": "=COINCIDIR(MAX(A:A),A:A,0)",
+    "explicacion": "MAX encuentra el valor más alto y COINCIDIR devuelve su posición en el rango",
+    "categoria": "Búsqueda",
+    "tags": ["fila", "máximo", "posición", "COINCIDIR", "MAX"]
+  },
+  {
+    "id": 40,
+    "slug": "convertir-numero-texto-formato",
+    "pregunta": "Cómo convertir número guardado como texto a número en Excel",
+    "solucion": "=VALOR(A1)",
+    "explicacion": "VALOR convierte texto numérico a número real que Excel puede calcular",
+    "categoria": "Limpieza",
+    "tags": ["número", "texto", "convertir", "VALOR", "formato"]
+  }
+]

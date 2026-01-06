@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórmulas de Excel - Buscador Rápido</title>
+    <meta name="description" content="Encuentra la fórmula de Excel perfecta para tu problema. Busca entre más de 40 soluciones para limpieza de datos, búsquedas, fechas y lógica.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+    </style>
+</head>
+<body class="bg-white font-sans text-gray-900 antialiased">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                    📊 Fórmulas de Excel
+                </h1>
+                <p class="text-gray-500 mt-2 text-sm md:text-base">
+                    Encuentra la solución perfecta para tu problema
+                </p>
+            </div>
+            
+            <!-- Search Input -->
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Buscar fórmulas... ej: extraer email, buscarv, fecha"
+                    class="w-full pl-12 pr-4 py-4 text-lg border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
+                >
+                <div id="resultCount" class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Filters -->
+    <div class="max-w-6xl mx-auto px-4 py-4">
+        <div class="flex flex-wrap gap-2 justify-center" id="categoryFilters">
+            <button data-category="all" class="category-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-900 text-white">
+                Todas
+            </button>
+            <button data-category="Limpieza" class="category-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100">
+                🧹 Limpieza
+            </button>
+            <button data-category="Búsqueda" class="category-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-blue-50 text-blue-700 hover:bg-blue-100">
+                🔍 Búsqueda
+            </button>
+            <button data-category="Lógica" class="category-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-purple-50 text-purple-700 hover:bg-purple-100">
+                🧠 Lógica
+            </button>
+            <button data-category="Fechas" class="category-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-amber-50 text-amber-700 hover:bg-amber-100">
+                📅 Fechas
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Grid -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Cards will be rendered here -->
+        </div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <div class="text-6xl mb-4">🔍</div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No se encontraron resultados</h3>
+            <p class="text-gray-500">Intenta con otros términos de búsqueda</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>💡 Haz clic en "Copiar Fórmula" para copiar directamente a tu portapapeles</p>
+        </div>
+    </footer>
+
+    <script>
+        // Excel Formulas Database
+        const excelData = [
+            {
+                "id": 1,
+                "slug": "extraer-dominio-email",
+                "pregunta": "Cómo extraer el dominio de un email en Excel",
+                "solucion": "=EXTRAE(A1,ENCONTRAR(\"@\",A1)+1,LARGO(A1)-ENCONTRAR(\"@\",A1))",
+                "explicacion": "ENCONTRAR localiza la @ y EXTRAE obtiene todo el texto después de ella hasta el final",
+                "categoria": "Limpieza",
+                "tags": ["email", "dominio", "extraer", "texto", "EXTRAE", "ENCONTRAR"]
+            },
+            {
+                "id": 2,
+                "slug": "buscarv-con-dos-condiciones",
+                "pregunta": "Cómo hacer BUSCARV con dos condiciones en Excel",
+                "solucion": "=INDICE(C:C,COINCIDIR(A1&B1,A:A&B:B,0))",
+                "explicacion": "Concatena las dos condiciones y usa INDICE+COINCIDIR en lugar de BUSCARV para búsquedas múltiples",
+                "categoria": "Búsqueda",
+                "tags": ["BUSCARV", "dos condiciones", "INDICE", "COINCIDIR", "múltiples criterios"]
+            },
+            {
+                "id": 3,
+                "slug": "convertir-texto-fecha",
+                "pregunta": "Cómo convertir texto a fecha en Excel cuando no reconoce el formato",
+                "solucion": "=FECHA(EXTRAE(A1,7,4),EXTRAE(A1,4,2),EXTRAE(A1,1,2))",
+                "explicacion": "Extrae día, mes y año del texto y los recompone con FECHA para crear una fecha válida",
+                "categoria": "Fechas",
+                "tags": ["texto", "fecha", "convertir", "formato", "FECHA", "EXTRAE"]
+            },
+            {
+                "id": 4,
+                "slug": "eliminar-espacios-dobles",
+                "pregunta": "Cómo eliminar espacios dobles en medio del texto Excel",
+                "solucion": "=ESPACIOS(A1)",
+                "explicacion": "ESPACIOS elimina todos los espacios extra dejando solo uno entre palabras",
+                "categoria": "Limpieza",
+                "tags": ["espacios", "limpiar", "texto", "ESPACIOS", "dobles"]
+            },
+            {
+                "id": 5,
+                "slug": "extraer-nombre-antes-arroba",
+                "pregunta": "Cómo extraer el nombre de usuario de un email en Excel",
+                "solucion": "=IZQUIERDA(A1,ENCONTRAR(\"@\",A1)-1)",
+                "explicacion": "ENCONTRAR ubica la @ e IZQUIERDA extrae todo lo que está antes de ella",
+                "categoria": "Limpieza",
+                "tags": ["email", "usuario", "extraer", "IZQUIERDA", "ENCONTRAR"]
+            },
+            {
+                "id": 6,
+                "slug": "si-anidado-tres-condiciones",
+                "pregunta": "Cómo hacer SI anidado con 3 condiciones en Excel",
+                "solucion": "=SI(A1>100,\"Alto\",SI(A1>50,\"Medio\",SI(A1>0,\"Bajo\",\"Sin datos\")))",
+                "explicacion": "Cada SI evalúa una condición y anida otro SI para las siguientes opciones",
+                "categoria": "Lógica",
+                "tags": ["SI", "anidado", "condiciones", "múltiple", "condicional"]
+            },
+            {
+                "id": 7,
+                "slug": "buscar-ultimo-valor-columna",
+                "pregunta": "Cómo encontrar el último valor de una columna en Excel",
+                "solucion": "=BUSCAR(2,1/(A:A<>\"\"),A:A)",
+                "explicacion": "Crea un array de 1 donde hay datos y BUSCAR devuelve el último coincidente",
+                "categoria": "Búsqueda",
+                "tags": ["último", "valor", "columna", "BUSCAR", "encontrar"]
+            },
+            {
+                "id": 8,
+                "slug": "sumar-si-contiene-texto",
+                "pregunta": "Cómo sumar celdas que contienen un texto específico en Excel",
+                "solucion": "=SUMAR.SI(A:A,\"*texto*\",B:B)",
+                "explicacion": "Los asteriscos son comodines que permiten buscar texto parcial en cualquier posición",
+                "categoria": "Lógica",
+                "tags": ["SUMAR.SI", "contiene", "texto", "comodín", "parcial"]
+            },
+            {
+                "id": 9,
+                "slug": "extraer-primera-palabra",
+                "pregunta": "Cómo extraer la primera palabra de una celda en Excel",
+                "solucion": "=IZQUIERDA(A1,ENCONTRAR(\" \",A1)-1)",
+                "explicacion": "ENCONTRAR localiza el primer espacio e IZQUIERDA extrae todo lo anterior",
+                "categoria": "Limpieza",
+                "tags": ["primera", "palabra", "extraer", "IZQUIERDA", "texto"]
+            },
+            {
+                "id": 10,
+                "slug": "contar-celdas-color",
+                "pregunta": "Cómo contar celdas por color de fondo en Excel",
+                "solucion": "=SUMAPRODUCTO((SUBTOTALES(103,DESREF(A1,FILA(A1:A100)-FILA(A1),0,1)))*(A1:A100<>\"\"))",
+                "explicacion": "No hay fórmula nativa; usa SUBTOTALES con filtro por color o crea macro VBA con Interior.Color",
+                "categoria": "Lógica",
+                "tags": ["contar", "color", "fondo", "celdas", "filtro"]
+            },
+            {
+                "id": 11,
+                "slug": "quitar-saltos-linea-celda",
+                "pregunta": "Cómo eliminar saltos de línea dentro de una celda en Excel",
+                "solucion": "=SUSTITUIR(A1,CARACTER(10),\" \")",
+                "explicacion": "CARACTER(10) representa el salto de línea y SUSTITUIR lo reemplaza por espacio",
+                "categoria": "Limpieza",
+                "tags": ["salto", "línea", "eliminar", "CARACTER", "SUSTITUIR"]
+            },
+            {
+                "id": 12,
+                "slug": "buscarv-devuelve-error",
+                "pregunta": "Cómo evitar que BUSCARV muestre error cuando no encuentra valor",
+                "solucion": "=SI.ERROR(BUSCARV(A1,B:C,2,FALSO),\"No encontrado\")",
+                "explicacion": "SI.ERROR captura el error #N/A y muestra un mensaje personalizado en su lugar",
+                "categoria": "Búsqueda",
+                "tags": ["BUSCARV", "error", "SI.ERROR", "N/A", "no encuentra"]
+            },
+            {
+                "id": 13,
+                "slug": "concatenar-rango-celdas",
+                "pregunta": "Cómo concatenar un rango de celdas en una sola en Excel",
+                "solucion": "=UNIRCADENAS(\", \",VERDADERO,A1:A10)",
+                "explicacion": "UNIRCADENAS une todas las celdas del rango con el separador indicado ignorando vacías",
+                "categoria": "Limpieza",
+                "tags": ["concatenar", "rango", "unir", "UNIRCADENAS", "combinar"]
+            },
+            {
+                "id": 14,
+                "slug": "extraer-numero-texto-mixto",
+                "pregunta": "Cómo extraer solo los números de una celda con texto y números",
+                "solucion": "=SUMAPRODUCTO(EXTRAE(A1,FILA(INDIRECTO(\"1:\"&LARGO(A1))),1)*(ESNUMERO(EXTRAE(A1,FILA(INDIRECTO(\"1:\"&LARGO(A1))),1)*1)))",
+                "explicacion": "Revisa cada carácter y mantiene solo los que son numéricos mediante multiplicación",
+                "categoria": "Limpieza",
+                "tags": ["extraer", "números", "texto", "mixto", "separar"]
+            },
+            {
+                "id": 15,
+                "slug": "calcular-dias-laborables",
+                "pregunta": "Cómo calcular días laborables entre dos fechas en Excel",
+                "solucion": "=DIAS.LAB(A1,B1,C1:C10)",
+                "explicacion": "DIAS.LAB cuenta días excluyendo fines de semana y los festivos del tercer parámetro",
+                "categoria": "Fechas",
+                "tags": ["días", "laborables", "festivos", "DIAS.LAB", "trabajo"]
+            },
+            {
+                "id": 16,
+                "slug": "separar-nombre-apellido",
+                "pregunta": "Cómo separar nombre y apellido en Excel",
+                "solucion": "=IZQUIERDA(A1,ENCONTRAR(\" \",A1)-1)",
+                "explicacion": "Para nombre usa IZQUIERDA hasta el espacio; para apellido usa EXTRAE desde el espacio",
+                "categoria": "Limpieza",
+                "tags": ["separar", "nombre", "apellido", "dividir", "texto"]
+            },
+            {
+                "id": 17,
+                "slug": "buscarv-hacia-izquierda",
+                "pregunta": "Cómo hacer BUSCARV hacia la izquierda en Excel",
+                "solucion": "=INDICE(A:A,COINCIDIR(D1,C:C,0))",
+                "explicacion": "COINCIDIR encuentra la fila e INDICE devuelve el valor de cualquier columna sin restricción",
+                "categoria": "Búsqueda",
+                "tags": ["BUSCARV", "izquierda", "INDICE", "COINCIDIR", "inverso"]
+            },
+            {
+                "id": 18,
+                "slug": "quitar-caracteres-especiales",
+                "pregunta": "Cómo eliminar caracteres especiales de una celda en Excel",
+                "solucion": "=SUSTITUIR(SUSTITUIR(SUSTITUIR(A1,\"#\",\"\"),\"@\",\"\"),\"$\",\"\")",
+                "explicacion": "Anida múltiples SUSTITUIR para reemplazar cada carácter especial por nada",
+                "categoria": "Limpieza",
+                "tags": ["caracteres", "especiales", "eliminar", "SUSTITUIR", "limpiar"]
+            },
+            {
+                "id": 19,
+                "slug": "sumar-si-conjunto-multiples",
+                "pregunta": "Cómo sumar con múltiples condiciones en Excel",
+                "solucion": "=SUMAR.SI.CONJUNTO(C:C,A:A,\"Ventas\",B:B,\">1000\")",
+                "explicacion": "SUMAR.SI.CONJUNTO permite añadir pares de rango-criterio para filtrar con AND lógico",
+                "categoria": "Lógica",
+                "tags": ["SUMAR.SI.CONJUNTO", "múltiples", "condiciones", "criterios", "sumar"]
+            },
+            {
+                "id": 20,
+                "slug": "obtener-nombre-mes-fecha",
+                "pregunta": "Cómo obtener el nombre del mes de una fecha en Excel",
+                "solucion": "=TEXTO(A1,\"MMMM\")",
+                "explicacion": "TEXTO con formato MMMM devuelve el nombre completo del mes en el idioma del sistema",
+                "categoria": "Fechas",
+                "tags": ["mes", "nombre", "fecha", "TEXTO", "formato"]
+            },
+            {
+                "id": 21,
+                "slug": "extraer-extension-archivo",
+                "pregunta": "Cómo extraer la extensión de un nombre de archivo en Excel",
+                "solucion": "=EXTRAE(A1,ENCONTRAR(\"¿\",SUSTITUIR(A1,\".\",\"¿\",LARGO(A1)-LARGO(SUSTITUIR(A1,\".\",\"\"))))+1,100)",
+                "explicacion": "Encuentra el último punto sustituyendo los anteriores y extrae lo que sigue",
+                "categoria": "Limpieza",
+                "tags": ["extensión", "archivo", "extraer", "punto", "nombre"]
+            },
+            {
+                "id": 22,
+                "slug": "comparar-dos-listas-duplicados",
+                "pregunta": "Cómo comparar dos listas y encontrar duplicados en Excel",
+                "solucion": "=SI(CONTAR.SI(B:B,A1)>0,\"Duplicado\",\"Único\")",
+                "explicacion": "CONTAR.SI busca cada valor de lista A en lista B y marca si existe o no",
+                "categoria": "Búsqueda",
+                "tags": ["comparar", "listas", "duplicados", "CONTAR.SI", "coincidencias"]
+            },
+            {
+                "id": 23,
+                "slug": "calcular-edad-fecha-nacimiento",
+                "pregunta": "Cómo calcular la edad exacta a partir de fecha de nacimiento en Excel",
+                "solucion": "=SIFECHA(A1,HOY(),\"Y\")",
+                "explicacion": "SIFECHA calcula la diferencia en años completos entre la fecha y hoy",
+                "categoria": "Fechas",
+                "tags": ["edad", "años", "nacimiento", "SIFECHA", "calcular"]
+            },
+            {
+                "id": 24,
+                "slug": "buscar-valor-aproximado",
+                "pregunta": "Cómo buscar el valor más cercano en Excel",
+                "solucion": "=INDICE(B:B,COINCIDIR(MIN(ABS(A:A-D1)),ABS(A:A-D1),0))",
+                "explicacion": "Calcula la diferencia absoluta con cada valor y encuentra el mínimo",
+                "categoria": "Búsqueda",
+                "tags": ["cercano", "aproximado", "valor", "COINCIDIR", "MIN"]
+            },
+            {
+                "id": 25,
+                "slug": "convertir-mayusculas-minusculas",
+                "pregunta": "Cómo convertir texto a mayúsculas solo la primera letra en Excel",
+                "solucion": "=NOMPROPIO(A1)",
+                "explicacion": "NOMPROPIO pone en mayúscula la primera letra de cada palabra automáticamente",
+                "categoria": "Limpieza",
+                "tags": ["mayúsculas", "minúsculas", "NOMPROPIO", "capitalizar", "texto"]
+            },
+            {
+                "id": 26,
+                "slug": "buscar-segundo-valor-repetido",
+                "pregunta": "Cómo buscar la segunda coincidencia en Excel",
+                "solucion": "=INDICE(B:B,COINCIDIR(A1,B:B,0)+COINCIDIR(A1,INDICE(B:B,COINCIDIR(A1,B:B,0)+1):B1000,0))",
+                "explicacion": "Encuentra la primera coincidencia y luego busca desde esa posición la siguiente",
+                "categoria": "Búsqueda",
+                "tags": ["segunda", "coincidencia", "repetido", "INDICE", "COINCIDIR"]
+            },
+            {
+                "id": 27,
+                "slug": "extraer-texto-entre-parentesis",
+                "pregunta": "Cómo extraer texto entre paréntesis en Excel",
+                "solucion": "=EXTRAE(A1,ENCONTRAR(\"(\",A1)+1,ENCONTRAR(\")\",A1)-ENCONTRAR(\"(\",A1)-1)",
+                "explicacion": "Localiza ambos paréntesis y extrae los caracteres entre sus posiciones",
+                "categoria": "Limpieza",
+                "tags": ["paréntesis", "extraer", "entre", "EXTRAE", "ENCONTRAR"]
+            },
+            {
+                "id": 28,
+                "slug": "sumar-cada-n-filas",
+                "pregunta": "Cómo sumar cada n filas en Excel",
+                "solucion": "=SUMAPRODUCTO((RESIDUO(FILA(A1:A100)-FILA(A1)+1,3)=0)*A1:A100)",
+                "explicacion": "RESIDUO identifica las filas múltiplo de n y SUMAPRODUCTO suma solo esas",
+                "categoria": "Lógica",
+                "tags": ["sumar", "cada", "filas", "RESIDUO", "intervalos"]
+            },
+            {
+                "id": 29,
+                "slug": "obtener-dia-semana-texto",
+                "pregunta": "Cómo obtener el día de la semana en texto de una fecha Excel",
+                "solucion": "=TEXTO(A1,\"DDDD\")",
+                "explicacion": "TEXTO con DDDD devuelve el nombre completo del día en el idioma del sistema",
+                "categoria": "Fechas",
+                "tags": ["día", "semana", "nombre", "TEXTO", "fecha"]
+            },
+            {
+                "id": 30,
+                "slug": "eliminar-filas-duplicadas-formula",
+                "pregunta": "Cómo identificar filas duplicadas con fórmula en Excel",
+                "solucion": "=SI(CONTAR.SI($A$1:A1,A1)>1,\"Duplicado\",\"Único\")",
+                "explicacion": "El rango con ancla inicial fija crece y detecta si el valor ya apareció antes",
+                "categoria": "Lógica",
+                "tags": ["duplicados", "identificar", "filas", "CONTAR.SI", "único"]
+            },
+            {
+                "id": 31,
+                "slug": "buscarv-multiples-hojas",
+                "pregunta": "Cómo hacer BUSCARV en varias hojas a la vez en Excel",
+                "solucion": "=SI.ERROR(BUSCARV(A1,Hoja1!A:B,2,0),SI.ERROR(BUSCARV(A1,Hoja2!A:B,2,0),\"No encontrado\"))",
+                "explicacion": "SI.ERROR anidado busca primero en una hoja y si falla prueba en la siguiente",
+                "categoria": "Búsqueda",
+                "tags": ["BUSCARV", "hojas", "múltiples", "SI.ERROR", "buscar"]
+            },
+            {
+                "id": 32,
+                "slug": "extraer-ultima-palabra",
+                "pregunta": "Cómo extraer la última palabra de una celda en Excel",
+                "solucion": "=EXTRAE(A1,ENCONTRAR(\"¿\",SUSTITUIR(A1,\" \",\"¿\",LARGO(A1)-LARGO(SUSTITUIR(A1,\" \",\"\"))))+1,100)",
+                "explicacion": "Sustituye el último espacio por carácter especial para localizarlo y extrae desde ahí",
+                "categoria": "Limpieza",
+                "tags": ["última", "palabra", "extraer", "EXTRAE", "SUSTITUIR"]
+            },
+            {
+                "id": 33,
+                "slug": "contar-palabras-celda",
+                "pregunta": "Cómo contar el número de palabras en una celda en Excel",
+                "solucion": "=LARGO(ESPACIOS(A1))-LARGO(SUSTITUIR(ESPACIOS(A1),\" \",\"\"))+1",
+                "explicacion": "Cuenta espacios (separadores de palabras) y suma 1 para obtener total de palabras",
+                "categoria": "Limpieza",
+                "tags": ["contar", "palabras", "celda", "LARGO", "SUSTITUIR"]
+            },
+            {
+                "id": 34,
+                "slug": "fecha-primer-dia-mes",
+                "pregunta": "Cómo obtener el primer día del mes de una fecha en Excel",
+                "solucion": "=FECHA(AÑO(A1),MES(A1),1)",
+                "explicacion": "FECHA reconstruye usando el mismo año y mes pero siempre día 1",
+                "categoria": "Fechas",
+                "tags": ["primer", "día", "mes", "FECHA", "inicio"]
+            },
+            {
+                "id": 35,
+                "slug": "buscar-maximo-con-condicion",
+                "pregunta": "Cómo buscar el valor máximo con condición en Excel",
+                "solucion": "=MAX.SI.CONJUNTO(B:B,A:A,\"Norte\")",
+                "explicacion": "MAX.SI.CONJUNTO encuentra el máximo solo entre celdas que cumplen el criterio",
+                "categoria": "Búsqueda",
+                "tags": ["máximo", "condición", "MAX.SI.CONJUNTO", "filtrar", "mayor"]
+            },
+            {
+                "id": 36,
+                "slug": "extraer-numero-telefono-texto",
+                "pregunta": "Cómo limpiar un número de teléfono quitando espacios y guiones en Excel",
+                "solucion": "=SUSTITUIR(SUSTITUIR(SUSTITUIR(A1,\" \",\"\"),\"-\",\"\"),\"(\",\"\")",
+                "explicacion": "SUSTITUIR anidado elimina cada carácter no deseado reemplazándolo por vacío",
+                "categoria": "Limpieza",
+                "tags": ["teléfono", "limpiar", "espacios", "guiones", "SUSTITUIR"]
+            },
+            {
+                "id": 37,
+                "slug": "sumar-celdas-visibles-filtradas",
+                "pregunta": "Cómo sumar solo las celdas visibles después de filtrar en Excel",
+                "solucion": "=SUBTOTALES(109,A1:A100)",
+                "explicacion": "SUBTOTALES con código 109 suma ignorando las filas ocultas por filtro",
+                "categoria": "Lógica",
+                "tags": ["sumar", "visibles", "filtrar", "SUBTOTALES", "ocultas"]
+            },
+            {
+                "id": 38,
+                "slug": "fecha-ultimo-dia-mes",
+                "pregunta": "Cómo obtener el último día del mes de una fecha en Excel",
+                "solucion": "=FIN.MES(A1,0)",
+                "explicacion": "FIN.MES con segundo argumento 0 devuelve el último día del mes actual de la fecha",
+                "categoria": "Fechas",
+                "tags": ["último", "día", "mes", "FIN.MES", "final"]
+            },
+            {
+                "id": 39,
+                "slug": "buscar-fila-valor-maximo",
+                "pregunta": "Cómo encontrar en qué fila está el valor máximo en Excel",
+                "solucion": "=COINCIDIR(MAX(A:A),A:A,0)",
+                "explicacion": "MAX encuentra el valor más alto y COINCIDIR devuelve su posición en el rango",
+                "categoria": "Búsqueda",
+                "tags": ["fila", "máximo", "posición", "COINCIDIR", "MAX"]
+            },
+            {
+                "id": 40,
+                "slug": "convertir-numero-texto-formato",
+                "pregunta": "Cómo convertir número guardado como texto a número en Excel",
+                "solucion": "=VALOR(A1)",
+                "explicacion": "VALOR convierte texto numérico a número real que Excel puede calcular",
+                "categoria": "Limpieza",
+                "tags": ["número", "texto", "convertir", "VALOR", "formato"]
+            }
+        ];
+
+        // Category colors configuration
+        const categoryColors = {
+            'Limpieza': { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', icon: '🧹' },
+            'Búsqueda': { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: '🔍' },
+            'Lógica': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200', icon: '🧠' },
+            'Fechas': { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: '📅' }
+        };
+
+        // State
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultCount = document.getElementById('resultCount');
+        const emptyState = document.getElementById('emptyState');
+        const categoryFilters = document.getElementById('categoryFilters');
+
+        // Create a card element
+        function createCard(item) {
+            const colors = categoryColors[item.categoria];
+            
+            return `
+                <article class="group bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:border-gray-200 transition-all duration-300 hover:-translate-y-1">
+                    <!-- Category Badge -->
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${colors.bg} ${colors.text}">
+                            ${colors.icon} ${item.categoria}
+                        </span>
+                        <span class="text-xs text-gray-400">#${item.id}</span>
+                    </div>
+                    
+                    <!-- Question -->
+                    <h2 class="text-base font-semibold text-gray-900 mb-3 leading-snug">
+                        ${item.pregunta}
+                    </h2>
+                    
+                    <!-- Formula -->
+                    <div class="bg-gray-50 rounded-xl p-3 mb-3 font-mono text-sm text-gray-800 break-all border border-gray-100">
+                        ${escapeHtml(item.solucion)}
+                    </div>
+                    
+                    <!-- Explanation -->
+                    <p class="text-sm text-gray-500 mb-4 leading-relaxed">
+                        ${item.explicacion}
+                    </p>
+                    
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        ${item.tags.slice(0, 4).map(tag => `
+                            <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-xs">
+                                ${tag}
+                            </span>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Copy Button -->
+                    <button 
+                        onclick="copyFormula('${escapeHtml(item.solucion).replace(/'/g, "\\'")}', this)"
+                        class="w-full py-2.5 px-4 bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium rounded-xl transition-all duration-200 flex items-center justify-center gap-2 group-hover:bg-blue-600"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Copiar Fórmula
+                    </button>
+                </article>
+            `;
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Copy formula to clipboard
+        async function copyFormula(formula, button) {
+            try {
+                // Decode HTML entities
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = formula;
+                const decodedFormula = textarea.value;
+                
+                await navigator.clipboard.writeText(decodedFormula);
+                
+                const originalContent = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    ¡Copiado!
+                `;
+                button.classList.remove('bg-gray-900', 'hover:bg-gray-800', 'group-hover:bg-blue-600');
+                button.classList.add('bg-green-500');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.classList.remove('bg-green-500');
+                    button.classList.add('bg-gray-900', 'hover:bg-gray-800', 'group-hover:bg-blue-600');
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+            }
+        }
+
+        // Filter data based on search term and category
+        function filterData() {
+            const term = searchTerm.toLowerCase().trim();
+            
+            return excelData.filter(item => {
+                // Category filter
+                const categoryMatch = currentCategory === 'all' || item.categoria === currentCategory;
+                
+                // Search filter
+                if (!term) return categoryMatch;
+                
+                const searchMatch = 
+                    item.pregunta.toLowerCase().includes(term) ||
+                    item.explicacion.toLowerCase().includes(term) ||
+                    item.tags.some(tag => tag.toLowerCase().includes(term));
+                
+                return categoryMatch && searchMatch;
+            });
+        }
+
+        // Render cards
+        function renderCards() {
+            const filtered = filterData();
+            
+            if (filtered.length === 0) {
+                resultsGrid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                resultCount.textContent = '0 resultados';
+            } else {
+                emptyState.classList.add('hidden');
+                resultsGrid.innerHTML = filtered.map(createCard).join('');
+                resultCount.textContent = `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`;
+            }
+        }
+
+        // Update category button styles
+        function updateCategoryButtons() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                const cat = btn.dataset.category;
+                
+                if (cat === currentCategory) {
+                    btn.classList.add('bg-gray-900', 'text-white');
+                    btn.classList.remove('bg-emerald-50', 'bg-blue-50', 'bg-purple-50', 'bg-amber-50', 'bg-gray-100');
+                    btn.classList.remove('text-emerald-700', 'text-blue-700', 'text-purple-700', 'text-amber-700', 'text-gray-700');
+                } else {
+                    btn.classList.remove('bg-gray-900', 'text-white');
+                    
+                    if (cat === 'all') {
+                        btn.classList.add('bg-gray-100', 'text-gray-700');
+                    } else {
+                        const colors = categoryColors[cat];
+                        btn.classList.add(colors.bg, colors.text);
+                    }
+                }
+            });
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderCards();
+        });
+
+        categoryFilters.addEventListener('click', (e) => {
+            const btn = e.target.closest('.category-btn');
+            if (!btn) return;
+            
+            currentCategory = btn.dataset.category;
+            updateCategoryButtons();
+            renderCards();
+        });
+
+        // Keyboard shortcut: Focus search on "/"
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            if (e.key === 'Escape') {
+                searchInput.blur();
+            }
+        });
+
+        // Initial render
+        renderCards();
+    </script>
+</body>
+</html>
